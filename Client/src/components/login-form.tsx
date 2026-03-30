@@ -26,7 +26,7 @@ export function LoginForm({
           <FieldLabel className="text-[15px]" htmlFor="Username">
             UserName
           </FieldLabel>
-          <Input className="text-[15px]" id="email" type="username" placeholder="ABC_275" required />
+          <Input className="text-[15px]" id="username" type="username" placeholder="ABC_275" required />
         </Field>
         <Field>
           <div className="flex items-center">
@@ -49,7 +49,7 @@ export function LoginForm({
         <Field>
           <FieldDescription className="text-center text-[15px]">
             Don&apos;t have an account?{" "}
-            <a href="#" className="underline underline-offset-4">
+            <a href="/register" className="underline underline-offset-4">
               Sign up
             </a>
           </FieldDescription>

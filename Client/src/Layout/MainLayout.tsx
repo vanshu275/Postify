@@ -1,20 +1,17 @@
-import { Outlet } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import { Outlet } from "react-router-dom"
+import { SidebarProvider} from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
+
 
 const MainLayout = () => {
   return (
-    <div className="flex">
-      
-      {/* Sidebar */}
-      <Sidebar />
-
-      {/* Main Content */}
-      <main className="flex-1 p-6">
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="flex-1 min-h-screen pl-4 pt-3">
         <Outlet />
       </main>
+    </SidebarProvider>
+  )
+}
 
-    </div>
-  );
-};
-
-export default MainLayout;
+export default MainLayout
