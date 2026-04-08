@@ -12,7 +12,6 @@ import { Link } from "react-router-dom"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-
 export function SignupForm({
   className,
   ...props
@@ -20,12 +19,9 @@ export function SignupForm({
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const navigate = useNavigate()
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
-    console.log("hi")
-
     try {
       const res = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
