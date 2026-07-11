@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
 import authRouter from "./routes/authRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
 
 
 import dotenv from "dotenv";
@@ -18,6 +19,7 @@ app.use(cors({
 app.use(express.json());
 
 // routes
+app.use("/api/posts", postRoutes);
 app.use("/api/auth", authRouter);
 
 // ✅ IIFE start

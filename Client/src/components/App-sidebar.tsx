@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import {
   Home,
   MessageCircle,
@@ -21,7 +21,7 @@ export const AppSidebar = () => {
 
   return (
     <div
-      className="flex h-screen w-[14vw] flex-col justify-between px-3 py-4 transition-all duration-800 ease-in-out"
+      className="flex h-screen w-[14vw] flex-col justify-between px-3 py-4 transition-all duration-800 ease-in-out fixed left-0 top-0"
       onMouseLeave={() => {
         if (showMenu) {
           setShowMenu(false)
