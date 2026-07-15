@@ -11,7 +11,7 @@ const postSchema = new mongoose.Schema(
       type: String,
     },
     image: {
-      type: String, // image URL (Cloudinary ya local later)
+      type: String, 
     },
   },
   { timestamps: true }

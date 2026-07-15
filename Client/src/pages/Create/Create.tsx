@@ -18,7 +18,6 @@ export default function Create() {
       const data = await res.json()
       console.log(data)
 
-      // ✅ ye ab chalega
       setText("")
     } catch (error) {
       console.log("Error:", error)
