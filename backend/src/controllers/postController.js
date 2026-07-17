@@ -1,40 +1,56 @@
 import Post from "../models/Post.js";
 
+// Create Post
+export const createPost = async (req, res) => {
+  try {
+    const { text, image } = req.body;
 
+    // Validate
+    if (!text?.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Post text is required",
+      });
+    }
 
-export const createPost = async (req,res)=>{
-    try{
-        const {title,content} = req.body;
-        if(!title || !content){
-            return res.status(400).json({message:"All fields are required"});
-        }
-        const userId = req.user.id;
-        if(!userId){
-            return res.status(401).json({message:"Unauthorized"});
-        }
-        const post = await Post.create({
-            user:userId,
-            title,
-            content
-        })
-        res.json(
-            {
-                message:"Post created successfully",
-            }
-        )
-    }
-    catch(error){
-        res.status(500).json({message:error.message});
-    }
-}
+    const post = await Post.create({
+      user: req.user._id,
+      text,
+      image,
+    });
 
+    return res.status(201).json({
+      success: true,
+      message: "Post created successfully",
+      data: post,
+    });
+  } catch (error) {
+    console.error(error);
 
-export const getAllPosts = async (req,res)=>{
-    try{
-        const posts = await Post.find();
-        res.json(posts);
-    }
-    catch(err){
-        res.status(500).json({message:err.message});
-    }
-}
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+// Get All Posts
+export const getPosts = async (req, res) => {
+  try {
+    const posts = await Post.find()
+      .populate("user", "username")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      data: posts,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};

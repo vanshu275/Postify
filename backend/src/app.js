@@ -4,8 +4,11 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 
-const app = express();
 
+import { notFound } from "./middleware/notFoundMiddleware.js";
+
+
+const app = express();
 
 // middlewares
 app.use(
@@ -14,12 +17,14 @@ app.use(
         credentials: true,
     })
 );
-app.use(express.json());
 
+app.use(express.json());
 
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
+
+app.use(notFound);
 
 
 // export

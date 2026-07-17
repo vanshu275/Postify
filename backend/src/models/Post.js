@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const postSchema = new mongoose.Schema(
   {
     user: {
@@ -7,20 +8,21 @@ const postSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    
-    title: {
-      type: String,
-    },
 
-    content:{
-      type:String,
+    content: {
+      type: String,
+      required: true,
+      trim: true,
     },
 
     image: {
-      type: String, 
+      type: String,
+      default: "",
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-export default mongoose.model("Post", postSchema);
+export default mongoose.model("Post" , postSchema);

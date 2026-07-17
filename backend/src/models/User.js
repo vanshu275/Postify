@@ -6,17 +6,28 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
     },
+
     password: {
       type: String,
       required: true,
     },
+
     profilePic: {
       type: String,
       default: "",
     },
+
+    bio: {
+      type: String,
+      default: "",
+      trim: true,
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 export default mongoose.model("User", userSchema);

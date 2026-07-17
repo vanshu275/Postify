@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken.js";
 
+// Register
 export const register = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -14,7 +15,7 @@ export const register = async (req, res) => {
       });
     }
 
-    // Check existing user
+    // Check if username already exists
     const existingUser = await User.findOne({ username });
 
     if (existingUser) {
@@ -25,8 +26,7 @@ export const register = async (req, res) => {
     }
 
     // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create user
     const user = await User.create({
@@ -34,10 +34,9 @@ export const register = async (req, res) => {
       password: hashedPassword,
     });
 
-    // Generate JWT
+    // Generate token
     const token = generateToken(user._id);
 
-    // Success response
     return res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -45,6 +44,8 @@ export const register = async (req, res) => {
         user: {
           id: user._id,
           username: user.username,
+          profilePic: user.profilePic,
+          bio: user.bio,
         },
         token,
       },
@@ -59,6 +60,7 @@ export const register = async (req, res) => {
   }
 };
 
+// Login
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -91,10 +93,9 @@ export const login = async (req, res) => {
       });
     }
 
-    // Generate JWT
+    // Generate token
     const token = generateToken(user._id);
 
-    // Success response
     return res.status(200).json({
       success: true,
       message: "Login successful",
@@ -102,6 +103,8 @@ export const login = async (req, res) => {
         user: {
           id: user._id,
           username: user.username,
+          profilePic: user.profilePic,
+          bio: user.bio,
         },
         token,
       },
