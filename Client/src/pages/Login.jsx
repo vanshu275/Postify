@@ -1,52 +1,130 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import { Link } from "react-router";
+
+import {
+  TextInput,
+  PasswordInput,
+  Button,
+  Paper,
+  Title,
+  Text,
+} from "@mantine/core";
+
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
 
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+
   const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
+    setFormData({
+      ...formData,
       [e.target.name]: e.target.value,
-    }));
+    });
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await login(formData.username, formData.password);
+      setError("");
+      setLoading(true);
 
-      console.log("Login Successful");
+      await login(
+        formData.username,
+        formData.password
+      );
+
+      navigate("/", { replace: true });
+
     } catch (error) {
-      console.error(error.response?.data?.message);
+      setError(
+        error.response?.data?.message || "Login failed"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
+
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        value={formData.username}
-        onChange={handleChange}
-      />
+    <div className="min-h-screen flex items-center justify-center">
 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-      />
+      <Paper
+        shadow="md"
+        p="xl"
+        radius="md"
+        className="w-[400px]"
+      >
 
-      <button type="submit">Login</button>
-    </form>
+        <Title order={2} className="mb-6">
+          Login
+        </Title>
+
+
+        <form onSubmit={handleSubmit}>
+
+          <TextInput
+            label="Username"
+            placeholder="Enter username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+          />
+
+
+          <PasswordInput
+            label="Password"
+            placeholder="Enter password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            mt="md"
+          />
+
+
+          {error && (
+            <Text
+              c="red"
+              mt="md"
+            >
+              {error}
+            </Text>
+          )}
+
+
+          <Button
+            type="submit"
+            fullWidth
+            mt="xl"
+            loading={loading}
+          >
+            Login
+          </Button>
+
+        </form>
+
+
+        <Text ta="center" mt="md">
+          Don't have an account?{" "}
+          <Link to="/register">
+            Register
+          </Link>
+        </Text>
+        
+      </Paper>
+
+    </div>
   );
 }

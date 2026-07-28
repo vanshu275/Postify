@@ -1,3 +1,17 @@
+/*   This method is was old way for using protected route logic 
+      how do this works 
+
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+/>
+
+but now we use new logic which you can find in AppLayout.jsx    */
+
 import { Navigate } from "react-router";
 import { useAuth } from "../context/AuthContext";
 
