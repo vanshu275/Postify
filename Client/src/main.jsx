@@ -7,6 +7,9 @@ import "@mantine/core/styles.css";
 import router from "./router/router";
 import { AuthProvider } from "./context/AuthContext";
 
+
+import "./index.css"
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <MantineProvider defaultColorScheme="dark">
