@@ -6,15 +6,17 @@ import "@mantine/core/styles.css";
 
 import router from "./router/router";
 import { AuthProvider } from "./context/AuthContext";
+import { PostProvider } from "./context/PostContext";
 
-
-import "./index.css"
+import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <MantineProvider defaultColorScheme="dark">
       <AuthProvider>
-        <RouterProvider router={router} />
+        <PostProvider>
+          <RouterProvider router={router} />
+        </PostProvider>
       </AuthProvider>
     </MantineProvider>
   </React.StrictMode>

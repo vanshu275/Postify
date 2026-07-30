@@ -1,22 +1,35 @@
 import Post from "../models/Post.js";
+import cloudinary from "../config/cloudinary.js";
+import fs from "fs/promises";
 
 // Create Post
 export const createPost = async (req, res) => {
   try {
-    const { text, image } = req.body;
+    const { content } = req.body;
+    const file = req.file;
 
     // Validate
-    if (!text?.trim()) {
+    if (!content?.trim() && !file) {
       return res.status(400).json({
         success: false,
-        message: "Post text is required",
+        message: "Post cannot be empty",
       });
+    }
+
+    let imageUrl = "";
+
+    if (file) {
+      const result = await cloudinary.uploader.upload(file.path);
+
+      imageUrl = result.secure_url;
+
+      await fs.unlink(file.path);
     }
 
     const post = await Post.create({
       user: req.user._id,
-      text,
-      image,
+      content,
+      image: imageUrl,
     });
 
     return res.status(201).json({
@@ -38,7 +51,7 @@ export const createPost = async (req, res) => {
 export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate("user", "username")
+      .populate("user" , "username" )
       .sort({ createdAt: -1 });
 
     return res.status(200).json({
