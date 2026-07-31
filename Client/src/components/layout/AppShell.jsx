@@ -11,7 +11,7 @@ export default function AppShell() {
       <Sidebar />
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto ml-7">
         <div className="mx-auto w-full max-w-3xl px-8 py-8">
           <Outlet />
         </div>

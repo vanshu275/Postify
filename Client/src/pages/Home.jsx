@@ -1,5 +1,6 @@
 import CreatePost from "../components/post/CreatePost";
 import PostCard from "../components/post/PostCard";
+import PostFeed from "../components/post/PostFeed";
 
 export default function Home() {
   return (
@@ -13,7 +14,7 @@ export default function Home() {
 
       {/* Backend se posts aayenge */}
 
-      <PostCard />
+      <PostFeed />
     </div>
   );
 }
