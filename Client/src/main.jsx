@@ -11,7 +11,7 @@ import { PostProvider } from "./context/PostContext";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  
     <MantineProvider defaultColorScheme="dark">
       <AuthProvider>
         <PostProvider>
@@ -19,5 +19,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </PostProvider>
       </AuthProvider>
     </MantineProvider>
-  </React.StrictMode>
+  
 );

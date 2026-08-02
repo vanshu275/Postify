@@ -98,22 +98,7 @@ export default function CreatePost() {
 
       </div>
 
-      {/* ================= Logic ================= */}
 
-      {/* 
-          text state
-          image state
-
-          handleImageUpload()
-
-          handleCreatePost()
-
-          loading
-
-          image preview
-
-          API Call
-      */}
 
     </div>
   );

@@ -3,6 +3,7 @@ import cors from "cors";
 
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js"
 
 import { notFound } from "./middleware/notFoundMiddleware.js";
 
@@ -22,6 +23,7 @@ app.use(express.json());
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/profile" , profileRoutes)
 
 // middleware for notFound
 app.use(notFound);
