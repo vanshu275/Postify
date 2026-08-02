@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from "react-router";
 import { useAuth } from "../context/AuthContext";
 
-import Sidebar from "../components/layout/Sidebar";
-import RightPanel from "../components/layout/RightPanel";
+import Sidebar from "../components/nav/Sidebar";
+import RightPanel from "../components/nav/RightPanel";
 
 
 export default function AppLayout() {

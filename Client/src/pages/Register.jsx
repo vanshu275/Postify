@@ -17,6 +17,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    name: "",
     username: "",
     password: "",
   });
@@ -41,6 +42,7 @@ export default function Register() {
       setLoading(true);
 
       await register(
+        formData.name,
         formData.username,
         formData.password
       );
@@ -57,78 +59,86 @@ export default function Register() {
         "Registration failed"
       );
     }
-  finally {
-    setLoading(false);
-  }
-};
+    finally {
+      setLoading(false);
+    }
+  };
 
 
-return (
-  <div className="min-h-screen flex items-center justify-center">
+  return (
+    <div className="min-h-screen flex items-center justify-center">
 
-    <Paper
-      shadow="md"
-      p="xl"
-      radius="md"
-      className="w-[400px]"
-    >
+      <Paper
+        shadow="md"
+        p="xl"
+        radius="md"
+        className="w-[400px]"
+      >
 
-      <Title order={2} className="mb-6">
-        Create Account
-      </Title>
-
-
-      <form onSubmit={handleSubmit}>
-
-        <TextInput
-          label="Username"
-          placeholder="Enter username"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-        />
+        <Title order={2} className="mb-6">
+          Create Account
+        </Title>
 
 
-        <PasswordInput
-          label="Password"
-          placeholder="Create password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          mt="md"
-        />
+        <form onSubmit={handleSubmit}>
+
+          <TextInput
+            label="Name"
+            placeholder="Enter your name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+
+          <TextInput
+            label="Username"
+            placeholder="Enter username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+          />
 
 
-        {error && (
-          <Text
-            c="red"
+          <PasswordInput
+            label="Password"
+            placeholder="Create password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
             mt="md"
+          />
+
+
+          {error && (
+            <Text
+              c="red"
+              mt="md"
+            >
+              {error}
+            </Text>
+          )}
+
+
+          <Button
+            type="submit"
+            fullWidth
+            mt="xl"
+            loading={loading}
           >
-            {error}
-          </Text>
-        )}
+            Register
+          </Button>
 
+        </form>
 
-        <Button
-          type="submit"
-          fullWidth
-          mt="xl"
-          loading={loading}
-        >
-          Register
-        </Button>
+        <Text ta="center" mt="md">
+          Already have an account?{" "}
+          <Link to="/login">
+            Login
+          </Link>
+        </Text>
 
-      </form>
+      </Paper>
 
-      <Text ta="center" mt="md">
-        Already have an account?{" "}
-        <Link to="/login">
-          Login
-        </Link>
-      </Text>
-
-    </Paper>
-
-  </div>
-);
+    </div>
+  );
 }

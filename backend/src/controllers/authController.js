@@ -6,10 +6,10 @@ import jwt from "jsonwebtoken";
 // Register
 export const register = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { name, username, password } = req.body;
 
     // Validate input
-    if (!username || !password) {
+    if (!username || !password || !name) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -17,7 +17,9 @@ export const register = async (req, res) => {
     }
 
     // Check if username already exists
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({
+      username: username.toLowerCase(),
+    });
 
     if (existingUser) {
       return res.status(400).json({
@@ -31,6 +33,7 @@ export const register = async (req, res) => {
 
     // Create user
     const user = await User.create({
+      name,
       username,
       password: hashedPassword,
     });
@@ -44,6 +47,7 @@ export const register = async (req, res) => {
       data: {
         user: {
           id: user._id,
+          name: user.name,
           username: user.username,
           profilePic: user.profilePic,
           bio: user.bio,
@@ -103,6 +107,7 @@ export const login = async (req, res) => {
       data: {
         user: {
           id: user._id,
+          name: user.name,
           username: user.username,
           profilePic: user.profilePic,
           bio: user.bio,

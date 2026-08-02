@@ -48,8 +48,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Register
-  const register = async (username, password) => {
-    const data = await registerUser(username, password);
+  const register = async (name ,username, password) => {
+    const data = await registerUser(name ,username, password);
 
     const { user, token } = data.data;
 

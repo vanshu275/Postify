@@ -41,7 +41,7 @@ export default function PostCard({ post }) {
           <img
             src={post.image}
             alt="Post"
-            className="h-[420px] w-full object-cover"
+            className="h-105 w-full object-cover"
           />
         </div>
       )}
