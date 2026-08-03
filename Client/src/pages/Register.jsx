@@ -66,79 +66,70 @@ export default function Register() {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-
-      <Paper
-        shadow="md"
-        p="xl"
-        radius="md"
-        className="w-[400px]"
+  <div className="flex min-h-screen items-center justify-center px-4 py-8">
+    <Paper
+      shadow="md"
+      p="xl"
+      radius="md"
+      className="w-full max-w-md"
+    >
+      <Title
+        order={2}
+        className="mb-6 text-center text-2xl md:text-3xl"
       >
+        Create Account
+      </Title>
 
-        <Title order={2} className="mb-6">
-          Create Account
-        </Title>
+      <form onSubmit={handleSubmit}>
+        <TextInput
+          label="Name"
+          placeholder="Enter your name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+        />
 
+        <TextInput
+          mt="md"
+          label="Username"
+          placeholder="Enter username"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+        />
 
-        <form onSubmit={handleSubmit}>
+        <PasswordInput
+          mt="md"
+          label="Password"
+          placeholder="Create password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
 
-          <TextInput
-            label="Name"
-            placeholder="Enter your name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
+        {error && (
+          <Text c="red" mt="md" size="sm">
+            {error}
+          </Text>
+        )}
 
-          <TextInput
-            label="Username"
-            placeholder="Enter username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
+        <Button
+          type="submit"
+          fullWidth
+          mt="xl"
+          loading={loading}
+        >
+          Register
+        </Button>
+      </form>
 
-
-          <PasswordInput
-            label="Password"
-            placeholder="Create password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            mt="md"
-          />
-
-
-          {error && (
-            <Text
-              c="red"
-              mt="md"
-            >
-              {error}
-            </Text>
-          )}
-
-
-          <Button
-            type="submit"
-            fullWidth
-            mt="xl"
-            loading={loading}
-          >
-            Register
-          </Button>
-
-        </form>
-
-        <Text ta="center" mt="md">
-          Already have an account?{" "}
-          <Link to="/login">
-            Login
-          </Link>
-        </Text>
-
-      </Paper>
-
-    </div>
-  );
+      <Text ta="center" mt="md" size="sm">
+        Already have an account?{" "}
+        <Link to="/login" className="font-medium">
+          Login
+        </Link>
+      </Text>
+    </Paper>
+  </div>
+);
 }

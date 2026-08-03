@@ -31,11 +31,11 @@ const SidebarContent = () => {
     }`;
 
   return (
-    <div>
+    <div className="flex w-full max-w-[280px] min-w-[220px] flex-col justify-between bg-zinc-950 p-4 sm:p-5 sticky top-0">
       {/* ================= TOP ================= */}
 
       <div>
-        <h1 className="mb-10 text-3xl font-bold tracking-wide">
+        <h1 className="mb-6 sm:mb-10 text-2xl sm:text-3xl font-bold tracking-wide text-white">
           Postify
         </h1>
 
@@ -49,15 +49,15 @@ const SidebarContent = () => {
                 to={item.path}
                 className={navLinkClass}
               >
-                <Icon size={22} />
-                <span className="font-medium">{item.title}</span>
+                <Icon size={22} className="shrink-0" />
+                <span className="font-medium truncate">{item.title}</span>
               </NavLink>
             );
           })}
 
           <NavLink to="/me" className={navLinkClass}>
-            <User size={22} />
-            <span className="font-medium">Profile</span>
+            <User size={22} className="shrink-0" />
+            <span className="font-medium truncate">Profile</span>
           </NavLink>
         </nav>
       </div>
@@ -65,28 +65,29 @@ const SidebarContent = () => {
       {/* ================= BOTTOM ================= */}
 
       <div>
-        <div className="mb-5 flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900 p-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-lg font-bold">
+        <div className="mb-4 sm:mb-5 flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900 p-2.5 sm:p-3 mt-8 sm:mt-14">
+          <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-blue-600 text-base sm:text-lg font-bold text-white">
             {user?.username?.charAt(0).toUpperCase() || "U"}
           </div>
 
-          <div className="overflow-hidden">
-            <p className="truncate font-semibold">
+          <div className="min-w-0 overflow-hidden">
+            <p className="truncate font-semibold text-sm sm:text-base text-zinc-100">
               {user?.username || "Username"}
             </p>
 
-            <p className="truncate text-sm text-zinc-400">
+            <p className="truncate text-xs sm:text-sm text-zinc-400">
               @{user?.username || "username"}
             </p>
           </div>
         </div>
 
         <button
+          type="button"
           onClick={logout}
-          className="flex w-full items-center justify-center gap-3 rounded-xl border border-red-500 py-3 text-red-400 transition hover:bg-red-500 hover:text-white"
+          className="flex w-full items-center justify-center gap-2.5 sm:gap-3 rounded-xl border border-red-500 py-2.5 sm:py-3 text-sm sm:text-base text-red-400 transition hover:bg-red-500 hover:text-white"
         >
-          <LogOut size={20} />
-          Logout
+          <LogOut size={20} className="shrink-0" />
+          <span>Logout</span>
         </button>
       </div>
     </div>

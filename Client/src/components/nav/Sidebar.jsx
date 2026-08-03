@@ -16,21 +16,21 @@ export default function Sidebar() {
           opened={opened}
           onClose={() => setOpened(false)}
           withCloseButton={true}
-          size="60%"
+          size="80%"
           overlayProps={{
-            blur: 8,
+            blur: 298,
             opacity: 0.45,
           }}
           styles={{
             content: {
-              background: "#09090b",
+              background: "#09090B",
             },
           }}
         >
           <SidebarContent />
         </Drawer>
       </div>
-      <aside className="sticky top-0 hidden h-screen md:flex md:w-[25%] xl:w-64 flex-col border-r border-zinc-800 bg-zinc-950 p-6">
+      <aside className="sticky top-0 hidden h-[80%] md:flex md:w-[25%] xl:w-64 flex-col border-r border-zinc-800 bg-zinc-950 p-6">
         <SidebarContent />
       </aside>
     </>
