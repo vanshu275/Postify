@@ -25,10 +25,9 @@ const SidebarContent = () => {
   const { user, logout } = useAuth();
 
   const navLinkClass = ({ isActive }) =>
-    `flex items-center gap-4 rounded-xl px-4 py-3 transition-all duration-200 ${
-      isActive
-        ? "bg-blue-600 text-white"
-        : "text-zinc-300 hover:bg-zinc-900 hover:text-white"
+    `flex items-center gap-4 rounded-xl px-4 py-3 transition-all duration-200 ${isActive
+      ? "bg-blue-600 text-white"
+      : "text-zinc-300 hover:bg-zinc-900 hover:text-white"
     }`;
 
   return (
@@ -56,10 +55,7 @@ const SidebarContent = () => {
             );
           })}
 
-          <NavLink
-            to={`/profile/${user?.username}`}
-            className={navLinkClass}
-          >
+          <NavLink to="/me" className={navLinkClass}>
             <User size={22} />
             <span className="font-medium">Profile</span>
           </NavLink>

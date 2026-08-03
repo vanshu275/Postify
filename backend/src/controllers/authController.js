@@ -18,7 +18,7 @@ export const register = async (req, res) => {
 
     // Check if username already exists
     const existingUser = await User.findOne({
-      username: username.toLowerCase(),
+      username: username,
     });
 
     if (existingUser) {
