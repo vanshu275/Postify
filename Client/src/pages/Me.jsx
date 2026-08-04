@@ -8,7 +8,7 @@ import MyPosts from "../components/profile/MyPosts";
 import EditProfileModal from "../components/profile/EditProfileModal";
 import SavedPosts from "../components/profile/SavedPosts";
 
-const Profile = () => {
+const Me = () => {
   const [user, setUser] = useState(null);
   const [openedEditModal, setOpenedEditModal] = useState(false);
   const [activeTab, setActiveTab] = useState("posts");
@@ -69,4 +69,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Me;

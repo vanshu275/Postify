@@ -8,8 +8,9 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 // import AppShell from "../components/layout/AppShell";
 import Explore from "../pages/Explore";
-import Profile from "../pages/Profile";
 import Message from "../pages/Message";
+import Me from "../pages/Me";
+import User from "../pages/User";
 
 const router = createBrowserRouter([
   {
@@ -29,8 +30,12 @@ const router = createBrowserRouter([
       },
       {
         path: "/me",
-        element: <Profile />,
+        element: <Me />,
       },
+      {
+        path : "/profile/:username",
+        element : <User />
+      }
     ],
   },
   {
