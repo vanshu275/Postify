@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getMe } from "../api/authApi";
+import { getMyPosts } from "../api/postApi";
 
 import ProfileHeader from "../components/profile/ProfileHeader";
 import ProfileTabs from "../components/profile/ProfileTabs";
@@ -11,9 +12,11 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const [openedEditModal, setOpenedEditModal] = useState(false);
   const [activeTab, setActiveTab] = useState("posts");
+  const [myPosts , setMyPosts] = useState([])
 
   useEffect(() => {
     fetchProfile();
+    getMyposts();
   }, []);
 
   const fetchProfile = async () => {
@@ -24,6 +27,11 @@ const Profile = () => {
       console.log(error);
     }
   };
+
+  const getMyposts = async () =>{
+    const data = await getMyPosts();
+    setMyPosts(data.data)
+  }
 
 
   if (!user) {
@@ -46,7 +54,7 @@ const Profile = () => {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-        {activeTab === "posts" && <MyPosts />}
+        {activeTab === "posts" && <MyPosts myPosts={myPosts}/>}
 
         {activeTab === "saved" && <SavedPosts />}
       </div>

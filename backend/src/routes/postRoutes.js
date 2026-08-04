@@ -1,5 +1,5 @@
 import express from "express";
-import { createPost, getPosts } from "../controllers/postController.js";
+import { createPost, getMyPosts, getPosts } from "../controllers/postController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import upload from "../middleware/upload.js";
 
@@ -13,5 +13,7 @@ router.post(
   createPost
 );
 router.get("/", getPosts);
+
+router.get("/myPost", protect , getMyPosts);
 
 export default router;

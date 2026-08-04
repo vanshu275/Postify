@@ -62,6 +62,13 @@ const userSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "Post",
       },
+    ],
+    myPost : [
+      {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Post"
+
+      }
     ]
 
   },

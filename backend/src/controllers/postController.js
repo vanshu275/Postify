@@ -67,3 +67,23 @@ export const getPosts = async (req, res) => {
     });
   }
 };
+
+export const getMyPosts = async (req, res) => {
+  try {
+    const myPosts = await Post.find({ user: req.user._id })
+      .populate("user", "username")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      data: myPosts,
+    });
+  } catch (error) {
+    console.error("Error in getMyPosts:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};

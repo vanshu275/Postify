@@ -20,3 +20,9 @@ export const getPosts = async () => {
   return response.data;
 };
 
+export const getMyPosts = async () =>{
+  const response = await api.get("/posts/myPost");
+
+  return response.data ;
+}
+
