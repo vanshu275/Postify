@@ -8,8 +8,8 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 // import AppShell from "../components/layout/AppShell";
 import Explore from "../pages/Explore";
-import Friends from "../pages/Friends";
 import Profile from "../pages/Profile";
+import Message from "../pages/Message";
 
 const router = createBrowserRouter([
   {
@@ -24,8 +24,8 @@ const router = createBrowserRouter([
         element: <Explore />,
       },
       {
-        path: "/friends",
-        element: <Friends />,
+        path: "/message",
+        element: <Message />,
       },
       {
         path: "/me",

@@ -15,8 +15,8 @@ const navItems = [
     icon: Compass,
   },
   {
-    title: "Friends",
-    path: "/friends",
+    title: "Message",
+    path: "/message",
     icon: Users,
   },
 ];

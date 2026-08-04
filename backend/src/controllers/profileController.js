@@ -67,3 +67,37 @@ export const updateProfile = async (req, res) => {
 
 
 }
+
+export const searchUsers = async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    if (!query?.trim()) {
+      return res.status(200).json({
+        success: true,
+        data: [],
+      });
+    }
+
+    const users = await User.find({
+      username: {
+        $regex: query,
+        $options: "i",
+      },
+    })
+      .select("name username profilePic")
+      .limit(10);
+
+    return res.status(200).json({
+      success: true,
+      data: users,
+    });
+  } catch (error) {
+    console.error("Search Users:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
