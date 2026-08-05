@@ -6,6 +6,7 @@ import postRoutes from "./routes/postRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js"
 
 import { notFound } from "./middleware/notFoundMiddleware.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 import multer from "multer"
 
@@ -27,6 +28,7 @@ app.use("/api/profile" , profileRoutes)
 
 // middleware for notFound
 app.use(notFound);
+app.use(errorHandler);
 
 // export
 export default app;

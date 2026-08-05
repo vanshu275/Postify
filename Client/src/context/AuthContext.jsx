@@ -38,24 +38,16 @@ export const AuthProvider = ({ children }) => {
   // Login
   const login = async (username, password) => {
     const data = await loginUser(username, password);
-
-    const { user, token } = data.data;
-
+    const { token } = data.data;
     localStorage.setItem("token", token);
-    setUser(user);
-
     return data;
   };
 
   // Register
-  const register = async (name ,username, password) => {
-    const data = await registerUser(name ,username, password);
-
-    const { user, token } = data.data;
-
+  const register = async (name, username, password) => {
+    const data = await registerUser(name, username, password);
+    const { token } = data.data;
     localStorage.setItem("token", token);
-    setUser(user);
-
     return data;
   };
 

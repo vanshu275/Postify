@@ -59,18 +59,15 @@ export default function CreatePost() {
       <div className="mt-4 sm:mt-5 flex items-center justify-between gap-3">
 
         <div className="flex items-center gap-2 min-w-0">
-
-          {/* Upload Image */}
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
             className="rounded-lg p-2 text-zinc-400 hover:text-zinc-100 transition hover:bg-zinc-800 shrink-0"
             title="Add image"
           >
-            <ImagePlus size={20} className="sm:w-[22px] sm:h-[22px]" />
+            <ImagePlus size={20} />
           </button>
 
-          {/* Hidden File Input */}
           <input
             ref={fileInputRef}
             type="file"
@@ -79,6 +76,11 @@ export default function CreatePost() {
             onChange={(e) => setImage(e.target.files[0])}
           />
 
+          {image && (
+            <span className="text-sm text-green-500 truncate">
+              ✓ {image.name}
+            </span>
+          )}
         </div>
 
         {/* Submit Button */}

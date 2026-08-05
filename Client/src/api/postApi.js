@@ -1,28 +1,21 @@
 import api from "./axios";
 
 export const createPost = async (formData) => {
-  const response = await api.post(
-    "/posts",
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
+  const response = await api.post("/posts", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
   return response.data;
 };
 
-export const getPosts = async () => {
-  const response = await api.get("/posts");
-
+export const getPosts = async (page = 1, limit = 10) => {
+  const response = await api.get(`/posts?page=${page}&limit=${limit}`);
   return response.data;
 };
 
-export const getMyPosts = async () =>{
-  const response = await api.get("/posts/myPost");
-
-  return response.data ;
-}
-
+export const getMyPosts = async (page = 1, limit = 10) => {
+  const response = await api.get(`/posts/myPost?page=${page}&limit=${limit}`);
+  return response.data;
+};

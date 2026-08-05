@@ -1,25 +1,50 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { createPost, getPosts } from "../api/postApi";
 
 const PostContext = createContext();
 
 export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);       // initial load
+  const [loadingMore, setLoadingMore] = useState(false); // pagination load
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-  const fetchPosts = async () => {
+  // Pehli baar posts laane ke liye
+  const fetchPosts = useCallback(async () => {
     try {
       setLoading(true);
-
-      const data = await getPosts();
-      setPosts(data.data);
+      const res = await getPosts(1, 10);
+      setPosts(res.data);
+      setPage(1);
+      setHasMore(res.pagination.hasMore);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
+  // Scroll/"Load more" pe next page laane ke liye
+  const loadMorePosts = useCallback(async () => {
+    if (loadingMore || !hasMore) return; // already loading ya aur posts nahi hai toh rukk
+
+    try {
+      setLoadingMore(true);
+      const nextPage = page + 1;
+      const res = await getPosts(nextPage, 10);
+
+      setPosts((prev) => [...prev, ...res.data]); // purane posts ke saath append
+      setPage(nextPage);
+      setHasMore(res.pagination.hasMore);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [page, hasMore, loadingMore]);
+
+  // Post add krne ke liye
   const addPost = async (content, image) => {
     try {
       if (!content.trim() || !image) {
@@ -33,9 +58,8 @@ export const PostProvider = ({ children }) => {
       formData.append("content", content);
       formData.append("image", image);
 
-      await createPost(formData);
-
-      await fetchPosts();
+      const res = await createPost(formData);
+      setPosts((prev) => [res.data, ...prev]);
     } catch (error) {
       console.log(error);
     } finally {
@@ -45,14 +69,17 @@ export const PostProvider = ({ children }) => {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [fetchPosts]);
 
   return (
     <PostContext.Provider
       value={{
         posts,
         loading,
+        loadingMore,
+        hasMore,
         fetchPosts,
+        loadMorePosts,
         addPost,
       }}
     >

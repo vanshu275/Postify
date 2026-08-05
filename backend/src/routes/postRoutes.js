@@ -13,7 +13,6 @@ router.post(
   createPost
 );
 router.get("/", getPosts);
-
 router.get("/myPost", protect , getMyPosts);
 
 export default router;

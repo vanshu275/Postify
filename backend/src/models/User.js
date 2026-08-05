@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 6,
+      select: false,
     },
 
     profilePic: {
@@ -63,14 +64,6 @@ const userSchema = new mongoose.Schema(
         ref: "Post",
       },
     ],
-    myPost : [
-      {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "Post"
-
-      }
-    ]
-
   },
   {
     timestamps: true,
