@@ -39,7 +39,12 @@ export const AuthProvider = ({ children }) => {
   const login = async (username, password) => {
     const data = await loginUser(username, password);
     const { token } = data.data;
+
     localStorage.setItem("token", token);
+
+    const userData = await getMe();
+    setUser(userData.data);
+
     return data;
   };
 
@@ -48,6 +53,9 @@ export const AuthProvider = ({ children }) => {
     const data = await registerUser(name, username, password);
     const { token } = data.data;
     localStorage.setItem("token", token);
+    const userData = await getMe();
+    setUser(userData.data);
+
     return data;
   };
 

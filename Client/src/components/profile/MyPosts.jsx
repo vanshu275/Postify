@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal } from "@mantine/core";
 import PostCard from "../post/PostCard";
 
-const MyPosts = ({ myPosts = [] }) => {
+const MyPosts = ({ posts = [] }) => {
   const [opened, setOpened] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
 
@@ -11,7 +11,7 @@ const MyPosts = ({ myPosts = [] }) => {
     setOpened(true);
   };
 
-  if (myPosts.length === 0) {
+  if (posts.length === 0) {
     return (
       <div className="py-12 text-center text-sm text-zinc-500">
         No posts yet.
@@ -23,7 +23,7 @@ const MyPosts = ({ myPosts = [] }) => {
     <>
       {/* Grid */}
       <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-2 mb-3 mr-2 ml-2">
-        {myPosts.map((post) => (
+        {posts.map((post) => (
           <button
             key={post._id}
             onClick={() => handleOpen(post)}

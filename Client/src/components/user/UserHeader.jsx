@@ -2,7 +2,6 @@ import { defaultCover, defaultProfile } from "../../constants/profile";
 
 
 const UserHeader = ({ user }) => {
-    console.log(user)
     return (
         <>
             {/* Cover */}

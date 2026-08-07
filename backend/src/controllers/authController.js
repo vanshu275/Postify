@@ -61,9 +61,8 @@ export const login = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({
     username: username.toLowerCase().trim(),
-  }).select("+password"); // agar select:false schema me hai to ye zaroori
+  }).select("+password"); 
 
-  // Same generic message for both cases — user enumeration se bachne ke liye
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(400).json({
       success: false,

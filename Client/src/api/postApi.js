@@ -19,3 +19,10 @@ export const getMyPosts = async (page = 1, limit = 10) => {
   const response = await api.get(`/posts/myPost?page=${page}&limit=${limit}`);
   return response.data;
 };
+
+export const getUserPosts = async (username, page = 1, limit = 10) => {
+  const response = await api.get(
+    `/posts/user/${username}?page=${page}&limit=${limit}`
+  );
+  return response.data;
+}

@@ -1,4 +1,7 @@
 import Post from "../models/Post.js";
+import User from "../models/User.js";
+
+
 import cloudinary from "../config/cloudinary.js";
 import fs from "fs/promises";
 import asyncHandler from "../utils/asyncHandler.js";
@@ -88,6 +91,42 @@ export const getMyPosts = asyncHandler(async (req, res) => {
       page,
       limit,
       total,
+      hasMore: skip + posts.length < total,
+    },
+  });
+});
+
+
+export const getUserPosts = asyncHandler(async (req, res) => {
+  const page = Math.max(1, parseInt(req.query.page) || 1);
+  const limit = Math.min(20, parseInt(req.query.limit) || 10);
+  const skip = (page - 1) * limit;
+
+  const user = await User.findOne({
+    username: req.params.username.toLowerCase().trim(),
+  }).select("_id");
+
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+
+  const [posts, total] = await Promise.all([
+    Post.find({ user: user._id })
+      .populate("user", "username name profilePic")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit),
+
+    Post.countDocuments({ user: user._id }),
+  ]);
+
+  return res.status(200).json({
+    success: true,
+    data: posts,
+    pagination: {
       hasMore: skip + posts.length < total,
     },
   });

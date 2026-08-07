@@ -54,7 +54,7 @@ const Me = () => {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-        {activeTab === "posts" && <MyPosts myPosts={myPosts}/>}
+        {activeTab === "posts" && <MyPosts posts={myPosts}/>}
 
         {activeTab === "saved" && <SavedPosts />}
       </div>
