@@ -1,5 +1,5 @@
 import express from "express";
-import { createPost, likePost ,deletePost, getMyPosts, getPosts, getUserPosts } from "../controllers/postController.js";
+import { createPost, likePost, deletePost, getMyPosts, getPosts, getUserPosts, commentPost, getComments } from "../controllers/postController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import upload from "../middleware/upload.js";
 
@@ -13,7 +13,7 @@ router.post(
   createPost
 );
 router.get("/", getPosts);
-router.get("/myPost", protect , getMyPosts);
+router.get("/myPost", protect, getMyPosts);
 router.get("/user/:username", getUserPosts);
 
 
@@ -25,4 +25,6 @@ router.delete("/:id", protect, deletePost);
 // like
 router.patch("/:postId/like", protect, likePost);
 
+router.get("/:postId/comments", getComments);
+router.post("/:postId/comment", protect, commentPost);
 export default router;

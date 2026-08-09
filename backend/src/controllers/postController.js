@@ -5,6 +5,7 @@ import User from "../models/User.js";
 import cloudinary from "../config/cloudinary.js";
 import fs from "fs/promises";
 import asyncHandler from "../utils/asyncHandler.js";
+import Comment from "../models/Comment.js";
 
 
 export const createPost = asyncHandler(async (req, res) => {
@@ -170,8 +171,6 @@ export const deletePost = asyncHandler(async (req, res) => {
   });
 });
 
-
-
 // like
 export const likePost = asyncHandler(async (req, res) => {
   const { postId } = req.params;
@@ -208,5 +207,54 @@ export const likePost = asyncHandler(async (req, res) => {
     message: alreadyLiked ? "Post unliked" : "Post liked",
     post,
     liked: !alreadyLiked,
+  });
+});
+
+
+// Fetch Comment
+export const getComments = asyncHandler(async (req, res) => {
+  const { postId } = req.params;
+
+  const comments = await Comment.find({ post: postId })
+    .populate("user", "name username profilePic")
+    .sort({ createdAt: -1 });
+
+  return res.status(200).json({
+    success: true,
+    comments,
+  });
+});
+
+// create comment
+export const commentPost = asyncHandler(async (req, res) => {
+  const { content } = req.body;
+  const { postId } = req.params;
+
+  if (!content?.trim()) {
+    return res.status(400).json({
+      success: false,
+      message: "Please enter some text!!!",
+    });
+  }
+
+  const comment = await Comment.create({
+    post: postId,
+    user: req.user._id,
+    content: content.trim(),
+  });
+
+  await comment.populate("user", "name username profilePic");
+
+  const post = await Post.findByIdAndUpdate(
+    postId,
+    { $inc: { commentsCount: 1 } },
+    { new: true }
+  );
+
+  return res.status(201).json({
+    success: true,
+    message: "Comment created successfully",
+    comment,
+    commentsCount: post.commentsCount,
   });
 });

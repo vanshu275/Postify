@@ -93,6 +93,20 @@ export const PostProvider = ({ children }) => {
     }
   };
 
+  const handleComment = async (postId, content) => {
+    const res = await commentPostApi(postId, { content });
+
+    setPosts((prev) =>
+      prev.map((post) =>
+        post._id === postId
+          ? {
+            ...post,
+            commentsCount: res.commentsCount,
+          }
+          : post
+      )
+    );
+  };
 
   useEffect(() => {
     fetchPosts();
@@ -110,6 +124,7 @@ export const PostProvider = ({ children }) => {
         addPost,
         removePost,
         handleLike,
+        handleComment,
       }}
     >
       {children}

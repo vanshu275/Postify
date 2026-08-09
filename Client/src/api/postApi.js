@@ -27,6 +27,7 @@ export const getUserPosts = async (username, page = 1, limit = 10) => {
   return response.data;
 }
 
+// delete post
 export const deletePost = async (postId) => {
   const response = await api.delete(`/posts/${postId}`);
   return response.data;
@@ -35,5 +36,15 @@ export const deletePost = async (postId) => {
 // postApi.js
 export const likePostApi = async (postId) => {
   const response = await api.patch(`/posts/${postId}/like`);
+  return response.data;
+};
+
+export const commentPostApi = async (postId, content) => {
+  const response = await api.post(`/posts/${postId}/comment`, content);
+  return response.data;
+};
+
+export const getCommentsApi = async (postId) => {
+  const response = await api.get(`/posts/${postId}/comments`);
   return response.data;
 };
