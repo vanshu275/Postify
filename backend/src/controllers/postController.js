@@ -18,12 +18,15 @@ export const createPost = asyncHandler(async (req, res) => {
     });
   }
 
-  let imageUrl = "";
+  let imageURL = "";
+  let imagePublicId = "";
 
   if (file) {
     try {
       const result = await cloudinary.uploader.upload(file.path);
-      imageUrl = result.secure_url;
+
+      imageURL = result.secure_url;
+      imagePublicId = result.public_id;
     } finally {
       await fs.unlink(file.path).catch(() => { });
     }
@@ -32,8 +35,11 @@ export const createPost = asyncHandler(async (req, res) => {
   const post = await Post.create({
     user: req.user._id,
     content: content?.trim() || "",
-    image: imageUrl,
+    image: imageURL,
+    imagePublicId,
   });
+
+  await post.populate("user", "username name profilePic");
 
   return res.status(201).json({
     success: true,
@@ -129,5 +135,78 @@ export const getUserPosts = asyncHandler(async (req, res) => {
     pagination: {
       hasMore: skip + posts.length < total,
     },
+  });
+});
+
+export const deletePost = asyncHandler(async (req, res) => {
+  const postId = req.params.id;
+
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return res.status(404).json({
+      success: false,
+      message: "Post not found",
+    });
+  }
+
+  // Check if the user is the owner of the post
+  if (post.user.toString() !== req.user._id.toString()) {
+    return res.status(403).json({
+      success: false,
+      message: "You are not the owner of this post",
+    });
+  }
+
+  if (post.imagePublicId) {
+    await cloudinary.uploader.destroy(post.imagePublicId);
+  }
+
+  await Post.findByIdAndDelete(postId);
+
+  return res.status(200).json({
+    success: true,
+    message: "Post deleted successfully",
+  });
+});
+
+
+
+// like
+export const likePost = asyncHandler(async (req, res) => {
+  const { postId } = req.params;
+
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    return res.status(404).json({
+      success: false,
+      message: "Post not found",
+    });
+  }
+
+  const userId = req.user._id;
+
+  const alreadyLiked = post.likes.some(
+    (id) => id.toString() === userId.toString()
+  );
+
+  if (alreadyLiked) {
+    // Unlike
+    post.likes.pull(userId);
+  } else {
+    // Like
+    post.likes.addToSet(userId);
+  }
+
+  await post.save();
+
+  await post.populate("user", "username name profilePic");
+
+  return res.status(200).json({
+    success: true,
+    message: alreadyLiked ? "Post unliked" : "Post liked",
+    post,
+    liked: !alreadyLiked,
   });
 });

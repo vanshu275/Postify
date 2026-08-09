@@ -50,9 +50,6 @@ export default function Register() {
       navigate("/", { replace: true });
 
     } catch (error) {
-      console.log(error);
-      console.log(error.response);
-
       setError(
         error.response?.data?.message ||
         error.message ||

@@ -7,6 +7,9 @@ export default function PostFeed() {
   if (loading) {
     return <p>Loading...</p>;
   }
+  if(!posts || posts.length === 0) {
+    return <p>No posts available.</p>;
+  }
 
   return (
     <div className="space-y-6">

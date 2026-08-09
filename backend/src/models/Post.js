@@ -28,6 +28,10 @@ const postSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    imagePublicId: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

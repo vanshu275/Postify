@@ -30,7 +30,7 @@ export const updateProfile = asyncHandler(async (req, res) => {
     if (bio !== undefined) updates.bio = bio.trim();
 
     const user = await User.findByIdAndUpdate(req.user._id, updates, {
-        new: true,
+        returnDocument: "after",
         runValidators: true,
     });
 

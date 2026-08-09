@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
-import { createPost, getPosts } from "../api/postApi";
+import { createPost, getPosts, deletePost, likePostApi } from "../api/postApi";
 
 const PostContext = createContext();
 
@@ -67,6 +67,33 @@ export const PostProvider = ({ children }) => {
     }
   };
 
+  const removePost = async (postId) => {
+    try {
+      await deletePost(postId);
+
+      setPosts((prev) => prev.filter((post) => post._id !== postId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLike = async (postId) => {
+    try {
+      const response = await likePostApi(postId);
+
+      setPosts((prev) =>
+        prev.map((post) =>
+          post._id === postId
+            ? response.post
+            : post
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   useEffect(() => {
     fetchPosts();
   }, [fetchPosts]);
@@ -81,6 +108,8 @@ export const PostProvider = ({ children }) => {
         fetchPosts,
         loadMorePosts,
         addPost,
+        removePost,
+        handleLike,
       }}
     >
       {children}

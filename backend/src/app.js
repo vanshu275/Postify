@@ -12,7 +12,7 @@ import multer from "multer"
 
 const app = express();
 
-// middlewares in built for some khatarnak work
+// middlewares in-built for some khatarnak work
 app.use(
     cors({
         origin: process.env.CLIENT_URL,

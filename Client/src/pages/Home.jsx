@@ -3,6 +3,7 @@ import PostCard from "../components/post/PostCard";
 import PostFeed from "../components/post/PostFeed";
 
 export default function Home() {
+  
   return (
     <div className="space-y-6">
 
