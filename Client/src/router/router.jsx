@@ -6,7 +6,7 @@ import AuthLayout from "../layouts/AuthLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-// import AppShell from "../components/layout/AppShell";
+import Chat from "../pages/chat";
 import Explore from "../pages/Explore";
 import Message from "../pages/Message";
 import Me from "../pages/Me";
@@ -24,18 +24,33 @@ const router = createBrowserRouter([
         path: "/explore",
         element: <Explore />,
       },
+
+
+
       {
         path: "/message",
-        element: <Message />,
+        children: [
+          {
+            index: true,
+            element: <Message />,
+          },
+          {
+            path: ":receiverId",
+            element: <Chat />,
+          }
+        ]
       },
+
+
       {
         path: "/me",
         element: <Me />,
       },
       {
-        path : "/profile/:username",
-        element : <User />
-      }
+        path: "/profile/:username",
+        element: <User />
+      },
+
     ],
   },
   {

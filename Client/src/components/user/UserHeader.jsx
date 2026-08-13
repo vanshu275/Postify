@@ -1,7 +1,9 @@
 import { defaultCover, defaultProfile } from "../../constants/profile";
+import { useNavigate } from "react-router";
 
 
 const UserHeader = ({ user }) => {
+    const navigate = useNavigate();
     return (
         <>
             {/* Cover */}
@@ -65,7 +67,10 @@ const UserHeader = ({ user }) => {
                         Follow
                     </button>
 
-                    <button className="rounded-xl border border-zinc-700 px-6 py-2.5 text-zinc-200 hover:bg-zinc-800">
+                    <button 
+                    onClick={() => navigate(`/message/${user._id}`)}
+                    className="rounded-xl border border-zinc-700 px-6 py-2.5 text-zinc-200 hover:bg-zinc-800"
+                    >
                         Message
                     </button>
                 </div>

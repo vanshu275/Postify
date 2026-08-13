@@ -4,6 +4,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js"
+import messageRoutes from "./routes/messageRoutes.js"
 
 import { notFound } from "./middleware/notFoundMiddleware.js";
 import { errorHandler } from "./middleware/errorHandler.js";
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/profile" , profileRoutes)
+app.use("/api/messages", messageRoutes);
 
 // middleware for notFound
 app.use(notFound);
