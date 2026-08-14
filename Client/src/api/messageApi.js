@@ -10,3 +10,8 @@ export const sendMessage = async (messageData) => {
     const message = await api.post('/messages/send', messageData)
     return message;
 }
+
+export const getConversationUsers = async ()=>{
+    const user = await api.get('/messages/conversations');
+    return user.data;
+}

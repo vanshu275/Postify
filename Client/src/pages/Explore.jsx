@@ -8,8 +8,8 @@ const Explore = () => {
   const { posts, loading } = usePosts();
   const navigate = useNavigate();
 
-  const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
+  const [search, setSearch] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
 
   const handleSearch = async (query) => {
