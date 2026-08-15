@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { getMessages, sendMessage } from "../api/messageApi";
+import { getMessages } from "../api/messageApi";
 import { useAuth } from "../context/AuthContext";
+import socket from "../socket/socket";
+
 
 const Chat = () => {
     const { receiverId } = useParams();
     const { user } = useAuth()
-
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(true);
 
+    // fetching messages
     useEffect(() => {
         const fetchMessages = async () => {
             try {
@@ -27,22 +29,38 @@ const Chat = () => {
         fetchMessages();
     }, [receiverId]);
 
-    const handleSendMessage = async (e) => {
+
+    // socket connection
+    useEffect(() => {
+        socket.connect();
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleReceiveMessage = (newMessage) => {
+            setMessages((prev) => [...prev, newMessage]);
+        };
+
+        socket.on("receiveMessage", handleReceiveMessage);
+
+        return () => {
+            socket.off("receiveMessage", handleReceiveMessage);
+        };
+    }, []);
+
+    const handleSendMessage = (e) => {
         e.preventDefault();
 
         if (!message.trim()) return;
 
-        try {
-            const response = await sendMessage({
-                receiver: receiverId,
-                message: message.trim(),
-            });
+        socket.emit("sendMessage", {
+            receiver: receiverId,
+            message: message.trim(),
+        });
 
-            setMessages((prev) => [...prev, response.data.data]);
-            setMessage("");
-        } catch (error) {
-            console.error("Error sending message:", error);
-        }
+        setMessage("");
     };
 
     return (
@@ -77,8 +95,8 @@ const Chat = () => {
                                 >
                                     <div
                                         className={`max-w-[75%] rounded-2xl px-4 py-2.5 text-zinc-100 ${isMe
-                                                ? "bg-blue-600"
-                                                : "bg-zinc-800"
+                                            ? "bg-blue-600"
+                                            : "bg-zinc-800"
                                             }`}
                                     >
                                         {msg.message}

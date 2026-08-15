@@ -26,30 +26,6 @@ export const getMessages = asyncHandler(async (req, res) => {
     })
 })
 
-export const sendMessage = asyncHandler(async (req, res) => {
-    const sender = req.user._id;
-    const { receiver, message } = req.body;
-    if (!sender || !receiver || !message) {
-        return res.status(400).json({
-            success: false,
-            message: "All fields are required"
-        })
-    }
-    const newMessage = await Message.create(
-        {
-            sender,
-            receiver,
-            message
-        }
-    )
-    return res.status(201).json({
-        success: true,
-        message: "Message sent successfully",
-        data: newMessage
-    })
-})
-
-
 
 // Get all users who have sent or received messages from the logged-in user
 export const getConversationUsers = asyncHandler(async (req, res) => {
