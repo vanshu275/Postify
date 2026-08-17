@@ -6,6 +6,7 @@ import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js"
 import messageRoutes from "./routes/messageRoutes.js"
+import followRoutes from "./routes/followRoutes.js"
 
 import { notFound } from "./middleware/notFoundMiddleware.js";
 import { errorHandler } from "./middleware/errorHandler.js";
@@ -28,6 +29,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/profile" , profileRoutes)
 app.use("/api/messages", messageRoutes);
+app.use("/api/follow", followRoutes);
 
 // middleware for notFound
 app.use(notFound);

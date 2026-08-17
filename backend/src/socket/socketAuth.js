@@ -10,7 +10,6 @@ const socketAuth = (socket, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         socket.user = decoded; // user info attach
-        console.log("User authenticated:", decoded);
         next();
     } catch (error) {
         next(new Error("Authentication error"));

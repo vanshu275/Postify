@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
 import { getMessages } from "../api/messageApi";
 import { useAuth } from "../context/AuthContext";
@@ -11,6 +11,7 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(true);
+    const messagesEndRef = useRef(null);
 
     // fetching messages
     useEffect(() => {
@@ -30,15 +31,15 @@ const Chat = () => {
     }, [receiverId]);
 
 
-    // socket connection
-    useEffect(() => {
-        socket.connect();
-        return () => {
-            socket.disconnect();
-        };
-    }, []);
 
     useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({
+            behavior: "smooth",
+        });
+    }, [messages]);
+
+    useEffect(() => {
+        socket.connect();
         const handleReceiveMessage = (newMessage) => {
             setMessages((prev) => [...prev, newMessage]);
         };
@@ -47,6 +48,7 @@ const Chat = () => {
 
         return () => {
             socket.off("receiveMessage", handleReceiveMessage);
+            socket.disconnect();
         };
     }, []);
 
@@ -86,7 +88,9 @@ const Chat = () => {
                 ) : (
                     <div className="mx-auto flex max-w-3xl flex-col gap-3">
                         {messages.map((msg) => {
-                            const isMe = msg.sender === user?._id;
+                            const isMe =
+                                msg.sender?._id?.toString() === user?._id?.toString() ||
+                                msg.sender?.toString() === user?._id?.toString();
 
                             return (
                                 <div
@@ -104,6 +108,8 @@ const Chat = () => {
                                 </div>
                             );
                         })}
+
+                        <div ref={messagesEndRef} />
                     </div>
                 )}
             </div>
